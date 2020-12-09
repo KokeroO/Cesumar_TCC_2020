@@ -1,0 +1,22 @@
+RewriteEngine on
+# RewriteCond% {HTTPS}! = On 
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond $1 !^(index\.php|assets|uploads)
+# RewriteRule ^ https: //% {HTTP_HOST}% {REQUEST_URI} [L, R = 301] 
+RewriteRule ^(.*)$ index.php/$1 [L] 
+AddType application/x-httpd-php .asp .py .pl
+# Use PHP70 as default
+AddHandler application/x-httpd-php70 .php
+# BEGIN custom php.ini PHP70
+<IfModule mod_suphp.c>
+    suPHP_ConfigPath Sistema
+</IfModule>
+<IfModule mod_env.c>
+    SetEnv CI_ENV development
+</IfModule>
+  <IfModule mod_headers.c>
+    Allow from all
+    Header set Access-Control-Allow-Origin "*"
+  </IfModule>
+# END custom php.ini
